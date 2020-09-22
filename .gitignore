@@ -102,3 +102,5 @@ lint/tmp/
 /.idea/misc.xml
 /.idea/vcs.xml
 /.idea/codeStyles
+/.idea/jarRepositories.xml
+/.idea/runConfigurations.xml
