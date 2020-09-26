@@ -12,9 +12,8 @@ class HprofTagStackTrace(bufferedSource: BufferedSource, parent: HprofTag) {
         stackTraceSerialNumber = bufferedSource.readInt()
         threadSerialNumber = bufferedSource.readInt()
         numberOfFrames = bufferedSource.readInt()
-        val idCount = parent.bodyLength / 4 - 3
         val tmpStackFrameId = mutableListOf<Int>()
-        repeat(idCount) {
+        repeat(numberOfFrames) {
             tmpStackFrameId.add(bufferedSource.readInt())
         }
         stackFrameId = tmpStackFrameId

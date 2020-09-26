@@ -1,5 +1,6 @@
 package com.skyinu.hprof.reader.model
 
+import com.skyinu.hprof.reader.utils.ReaderUtil
 import okio.BufferedSource
 
 class HprofHeapInstanceDump(bufferedSource: BufferedSource) {
@@ -12,7 +13,7 @@ class HprofHeapInstanceDump(bufferedSource: BufferedSource) {
         objectId = bufferedSource.readInt()
         stackSerialNumber = bufferedSource.readInt()
         classObjectId = bufferedSource.readInt()
-        val remainValueBytes = bufferedSource.readInt()
-        values = bufferedSource.readByteArray(remainValueBytes.toLong())
+        val remainValueBytes = ReaderUtil.readUnsignedInt(bufferedSource)
+        values = bufferedSource.readByteArray(remainValueBytes)
     }
 }

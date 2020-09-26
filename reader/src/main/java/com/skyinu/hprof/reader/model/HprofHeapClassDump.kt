@@ -27,10 +27,10 @@ class HprofHeapClassDump(bufferedSource: BufferedSource) {
         reservedOne = bufferedSource.readInt()
         reservedTwo = bufferedSource.readInt()
         instanceSize = bufferedSource.readInt()
-        var listObjectSize = bufferedSource.readShort()
+        var listObjectSize = ReaderUtil.readUnsignedShort(bufferedSource)
         val tmpPoolList = mutableListOf<ConstantPool>()
         constantPoolList = tmpPoolList
-        repeat(listObjectSize.toInt()) {
+        repeat(listObjectSize) {
             val constantPool = ConstantPool()
             constantPool.constantPoolIndex = bufferedSource.readShort()
             constantPool.entryType = bufferedSource.readByte()
@@ -38,10 +38,10 @@ class HprofHeapClassDump(bufferedSource: BufferedSource) {
             tmpPoolList.add(constantPool)
         }
 
-        listObjectSize = bufferedSource.readShort()
+        listObjectSize = ReaderUtil.readUnsignedShort(bufferedSource)
         val tmpStaticList = mutableListOf<StaticField>()
         staticFieldList = tmpStaticList
-        repeat(listObjectSize.toInt()) {
+        repeat(listObjectSize) {
             val staticField = StaticField()
             staticField.nameStringId = bufferedSource.readInt()
             staticField.entryType = bufferedSource.readByte()
@@ -49,10 +49,10 @@ class HprofHeapClassDump(bufferedSource: BufferedSource) {
             tmpStaticList.add(staticField)
         }
 
-        listObjectSize = bufferedSource.readShort()
+        listObjectSize = ReaderUtil.readUnsignedShort(bufferedSource)
         val tmpInstanceList = mutableListOf<InstanceField>()
         instanceFieldList = tmpInstanceList
-        repeat(listObjectSize.toInt()) {
+        repeat(listObjectSize) {
             val instanceField = InstanceField()
             instanceField.nameStringId = bufferedSource.readInt()
             instanceField.entryType = bufferedSource.readByte()

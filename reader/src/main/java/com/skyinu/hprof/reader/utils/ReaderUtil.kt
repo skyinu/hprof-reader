@@ -4,6 +4,10 @@ import com.skyinu.hprof.reader.model.BasicType
 import okio.BufferedSource
 
 object ReaderUtil {
+    private const val BYTE_MASK = 0xff
+    private const val INT_MASK = 0xffffffffL
+    private const val SHORT_MASK = 0xFFFF
+
     fun readerNullEndString(bufferSource: BufferedSource): String {
         val byteArray = mutableListOf<Byte>()
         while (true) {
@@ -35,5 +39,17 @@ object ReaderUtil {
                 bufferSource.readInt()
             }
         }
+    }
+
+    fun readUnsignedByte(bufferSource: BufferedSource): Int {
+        return bufferSource.readByte().toInt() and BYTE_MASK
+    }
+
+    fun readUnsignedInt(bufferSource: BufferedSource): Long {
+        return bufferSource.readInt().toLong() and INT_MASK
+    }
+
+    fun readUnsignedShort(bufferSource: BufferedSource): Int {
+        return bufferSource.readShort().toInt() and SHORT_MASK
     }
 }

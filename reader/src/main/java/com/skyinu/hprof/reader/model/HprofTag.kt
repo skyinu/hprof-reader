@@ -1,9 +1,9 @@
 package com.skyinu.hprof.reader.model
 
 class HprofTag {
-    var tagId: Byte = 0
+    var tagId: Int = 0
     var timeStamp = 0
-    var bodyLength = 0
+    var bodyLength = 0L
     var body: Any = Any()
 
     companion object {

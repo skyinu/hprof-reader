@@ -32,14 +32,14 @@ class HprofReader {
         return header
     }
 
-    private fun parseTag(bufferSource: BufferedSource): Map<Byte, List<HprofTag>> {
-        val hprofTagMap = mutableMapOf<Byte, MutableList<HprofTag>>()
+    private fun parseTag(bufferSource: BufferedSource): Map<Int, List<HprofTag>> {
+        val hprofTagMap = mutableMapOf<Int, MutableList<HprofTag>>()
         while (!bufferSource.exhausted()) {
-            val tag = bufferSource.readByte()
+            val tag = ReaderUtil.readUnsignedByte(bufferSource)
             val hprofTag = HprofTag()
             hprofTag.tagId = tag
             hprofTag.timeStamp = bufferSource.readInt()
-            hprofTag.bodyLength = bufferSource.readInt()
+            hprofTag.bodyLength = ReaderUtil.readUnsignedInt(bufferSource)
             val hprofTagList = if (hprofTagMap[tag] != null) {
                 hprofTagMap[tag]
             } else {
@@ -49,38 +49,38 @@ class HprofReader {
             }
             hprofTagList!!.add(hprofTag)
             when (tag) {
-                STRING_IN_UTF8.toByte() -> {
+                STRING_IN_UTF8 -> {
                     hprofTag.body = HprofTagUTF8(bufferSource, hprofTag)
                 }
-                LOAD_CLASS.toByte() -> {
+                LOAD_CLASS -> {
                     hprofTag.body = HprofTagLoadClass(bufferSource, hprofTag)
                 }
-                UNLOAD_CLASS.toByte() -> {
+                UNLOAD_CLASS -> {
                     hprofTag.body = HprofTagUnLoadClass(bufferSource, hprofTag)
                 }
-                STACK_FRAME.toByte() -> {
+                STACK_FRAME -> {
                     hprofTag.body = HprofTagStackFrame(bufferSource, hprofTag)
                 }
-                STACK_TRACE.toByte() -> {
+                STACK_TRACE -> {
                     hprofTag.body = HprofTagStackTrace(bufferSource, hprofTag)
                 }
-                ALLOC_SITES.toByte() -> {
+                ALLOC_SITES -> {
                     hprofTag.body = HprofTagAllocSites(bufferSource, hprofTag)
                 }
-                HEAP_SUMMARY.toByte() -> {
+                HEAP_SUMMARY -> {
                     hprofTag.body = HprofTagHeapSummary(bufferSource, hprofTag)
                 }
-                START_THREAD.toByte() -> {
+                START_THREAD -> {
                     hprofTag.body = HprofTagStartThread(bufferSource, hprofTag)
                 }
-                END_THREAD.toByte() -> {
+                END_THREAD -> {
                     hprofTag.body = HprofTagEndThread(bufferSource, hprofTag)
                 }
-                HEAP_DUMP.toByte(), HEAP_DUMP_SEGMENT.toByte() -> {
+                HEAP_DUMP, HEAP_DUMP_SEGMENT -> {
                     hprofTag.body = HprofTagHeapDump(bufferSource, hprofTag)
                 }
                 else -> {
-                    bufferSource.skip(hprofTag.bodyLength.toLong())
+                    bufferSource.skip(hprofTag.bodyLength)
                 }
             }
         }

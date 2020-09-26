@@ -8,6 +8,6 @@ class HprofTagUTF8(bufferedSource: BufferedSource, parent: HprofTag) {
 
     init {
         nameId = bufferedSource.readInt()
-        value = bufferedSource.readUtf8((parent.bodyLength - FieldLength.U4.length).toLong())
+        value = bufferedSource.readUtf8((parent.bodyLength - FieldLength.U4.length))
     }
 }
