@@ -3,6 +3,8 @@ package com.skyinu.hprof.reader
 import com.skyinu.hprof.reader.model.*
 import com.skyinu.hprof.reader.model.HprofTag.Companion.ALLOC_SITES
 import com.skyinu.hprof.reader.model.HprofTag.Companion.END_THREAD
+import com.skyinu.hprof.reader.model.HprofTag.Companion.HEAP_DUMP
+import com.skyinu.hprof.reader.model.HprofTag.Companion.HEAP_DUMP_SEGMENT
 import com.skyinu.hprof.reader.model.HprofTag.Companion.HEAP_SUMMARY
 import com.skyinu.hprof.reader.model.HprofTag.Companion.LOAD_CLASS
 import com.skyinu.hprof.reader.model.HprofTag.Companion.STACK_FRAME
@@ -73,6 +75,9 @@ class HprofReader {
                 }
                 END_THREAD.toByte() -> {
                     hprofTag.body = HprofTagEndThread(bufferSource, hprofTag)
+                }
+                HEAP_DUMP.toByte(), HEAP_DUMP_SEGMENT.toByte() -> {
+                    hprofTag.body = HprofTagHeapDump(bufferSource, hprofTag)
                 }
                 else -> {
                     bufferSource.skip(hprofTag.bodyLength.toLong())

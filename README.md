@@ -52,3 +52,4 @@ a practice project to learn the data format of hprof.
 + [hprof manual](http://hg.openjdk.java.net/jdk6/jdk6/jdk/raw-file/tip/src/share/demo/jvmti/hprof/manual.html#mozTocId848088)
 + [heapDumper](https://hg.openjdk.java.net/jdk/jdk/file/9a73a4e4011f/src/hotspot/share/services/heapDumper.cpp)
 + [android hprof](https://android.googlesource.com/platform/art/+/refs/heads/android10-c2f2-release/runtime/hprof/hprof.cc)
++ [probe](https://tech.meituan.com/2019/11/14/crash-oom-probe-practice.html)
