@@ -1,9 +1,13 @@
 package com.skyinu.hprof.reader
 
 import com.skyinu.hprof.reader.model.*
+import com.skyinu.hprof.reader.model.HprofTag.Companion.ALLOC_SITES
+import com.skyinu.hprof.reader.model.HprofTag.Companion.END_THREAD
+import com.skyinu.hprof.reader.model.HprofTag.Companion.HEAP_SUMMARY
 import com.skyinu.hprof.reader.model.HprofTag.Companion.LOAD_CLASS
 import com.skyinu.hprof.reader.model.HprofTag.Companion.STACK_FRAME
 import com.skyinu.hprof.reader.model.HprofTag.Companion.STACK_TRACE
+import com.skyinu.hprof.reader.model.HprofTag.Companion.START_THREAD
 import com.skyinu.hprof.reader.model.HprofTag.Companion.STRING_IN_UTF8
 import com.skyinu.hprof.reader.model.HprofTag.Companion.UNLOAD_CLASS
 import com.skyinu.hprof.reader.utils.ReaderUtil
@@ -58,8 +62,20 @@ class HprofReader {
                 STACK_TRACE.toByte() -> {
                     hprofTag.body = HprofTagStackTrace(bufferSource, hprofTag)
                 }
+                ALLOC_SITES.toByte() -> {
+                    hprofTag.body = HprofTagAllocSites(bufferSource, hprofTag)
+                }
+                HEAP_SUMMARY.toByte() -> {
+                    hprofTag.body = HprofTagHeapSummary(bufferSource, hprofTag)
+                }
+                START_THREAD.toByte() -> {
+                    hprofTag.body = HprofTagStartThread(bufferSource, hprofTag)
+                }
+                END_THREAD.toByte() -> {
+                    hprofTag.body = HprofTagEndThread(bufferSource, hprofTag)
+                }
                 else -> {
-                    return hprofTagMap
+                    bufferSource.skip(hprofTag.bodyLength.toLong())
                 }
             }
         }
