@@ -2,8 +2,11 @@ package com.skyinu.hprof.reader
 
 import com.skyinu.hprof.reader.model.*
 import com.skyinu.hprof.reader.model.HprofTag.Companion.ALLOC_SITES
+import com.skyinu.hprof.reader.model.HprofTag.Companion.CONTROL_SETTINGS
+import com.skyinu.hprof.reader.model.HprofTag.Companion.CPU_SAMPLES
 import com.skyinu.hprof.reader.model.HprofTag.Companion.END_THREAD
 import com.skyinu.hprof.reader.model.HprofTag.Companion.HEAP_DUMP
+import com.skyinu.hprof.reader.model.HprofTag.Companion.HEAP_DUMP_END
 import com.skyinu.hprof.reader.model.HprofTag.Companion.HEAP_DUMP_SEGMENT
 import com.skyinu.hprof.reader.model.HprofTag.Companion.HEAP_SUMMARY
 import com.skyinu.hprof.reader.model.HprofTag.Companion.LOAD_CLASS
@@ -78,6 +81,14 @@ class HprofReader {
                 }
                 HEAP_DUMP, HEAP_DUMP_SEGMENT -> {
                     hprofTag.body = HprofTagHeapDump(bufferSource, hprofTag)
+                }
+                HEAP_DUMP_END -> {
+                }
+                CPU_SAMPLES -> {
+                    hprofTag.body = HprofTagCpuSamples(bufferSource, hprofTag)
+                }
+                CONTROL_SETTINGS -> {
+                    hprofTag.body = HprofTagControlSettings(bufferSource, hprofTag)
                 }
                 else -> {
                     bufferSource.skip(hprofTag.bodyLength)

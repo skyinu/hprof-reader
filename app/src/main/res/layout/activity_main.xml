@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="dump java heap"
+        android:textSize="30sp"
         tools:ignore="HardcodedText" />
 
     <TextView
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="parse java heap"
+        android:textSize="30sp"
         tools:ignore="HardcodedText" />
 
 </LinearLayout>
