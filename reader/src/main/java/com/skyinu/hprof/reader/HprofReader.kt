@@ -40,7 +40,9 @@ class HprofReader {
         println("hprof tag min $STRING_IN_UTF8 max $HEAP_DUMP_END")
         while (!bufferSource.exhausted()) {
             val tag = ReaderUtil.readUnsignedByte(bufferSource)
-            println("hprof tag $tag remain size ${bufferSource.buffer.size}")
+            if (tag < STRING_IN_UTF8 || tag > HEAP_DUMP_END) {
+                error("hprof tag $tag remain size ${bufferSource.buffer.size}")
+            }
             val hprofTag = HprofTag()
             hprofTag.tagId = tag
             hprofTag.timeStamp = bufferSource.readInt()
