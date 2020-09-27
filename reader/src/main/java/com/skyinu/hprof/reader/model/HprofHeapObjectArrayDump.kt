@@ -9,11 +9,14 @@ class HprofHeapObjectArrayDump(bufferedSource: BufferedSource) {
     var arrayClassObjectId = 0
     var elements: List<Int> = listOf()
 
+    var count = 0L
+
     init {
         arrayObjectId = bufferedSource.readInt()
         stackSerialNumber = bufferedSource.readInt()
         numberOfElements = bufferedSource.readInt()
         arrayClassObjectId = bufferedSource.readInt()
+        count += (FieldLength.U4.length * 4) + numberOfElements
         val tmpElements = mutableListOf<Int>()
         repeat(numberOfElements) {
             tmpElements.add(bufferedSource.readInt())

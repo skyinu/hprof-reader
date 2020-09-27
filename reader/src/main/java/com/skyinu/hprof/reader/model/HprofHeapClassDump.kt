@@ -17,6 +17,8 @@ class HprofHeapClassDump(bufferedSource: BufferedSource) {
     var staticFieldList: List<StaticField> = listOf()
     var instanceFieldList: List<InstanceField> = listOf()
 
+    var count = 0
+
     init {
         classObjectId = bufferedSource.readInt()
         stackSerialNumber = bufferedSource.readInt()
@@ -27,7 +29,9 @@ class HprofHeapClassDump(bufferedSource: BufferedSource) {
         reservedOne = bufferedSource.readInt()
         reservedTwo = bufferedSource.readInt()
         instanceSize = bufferedSource.readInt()
+        count += (FieldLength.U4.length * 9)
         var listObjectSize = ReaderUtil.readUnsignedShort(bufferedSource)
+        count += FieldLength.U2.length + listObjectSize
         val tmpPoolList = mutableListOf<ConstantPool>()
         constantPoolList = tmpPoolList
         repeat(listObjectSize) {
@@ -39,6 +43,7 @@ class HprofHeapClassDump(bufferedSource: BufferedSource) {
         }
 
         listObjectSize = ReaderUtil.readUnsignedShort(bufferedSource)
+        count += FieldLength.U2.length + listObjectSize
         val tmpStaticList = mutableListOf<StaticField>()
         staticFieldList = tmpStaticList
         repeat(listObjectSize) {
@@ -50,6 +55,7 @@ class HprofHeapClassDump(bufferedSource: BufferedSource) {
         }
 
         listObjectSize = ReaderUtil.readUnsignedShort(bufferedSource)
+        count += FieldLength.U2.length + listObjectSize
         val tmpInstanceList = mutableListOf<InstanceField>()
         instanceFieldList = tmpInstanceList
         repeat(listObjectSize) {
