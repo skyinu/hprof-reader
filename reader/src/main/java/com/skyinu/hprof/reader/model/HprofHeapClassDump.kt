@@ -31,31 +31,38 @@ class HprofHeapClassDump(bufferedSource: BufferedSource) {
         instanceSize = bufferedSource.readInt()
         count += (FieldLength.U4.length * 9)
         var listObjectSize = ReaderUtil.readUnsignedShort(bufferedSource)
-        count += FieldLength.U2.length + listObjectSize
+        println("HprofHeapClassDump constant pool $listObjectSize ")
+        count += FieldLength.U2.length
         val tmpPoolList = mutableListOf<ConstantPool>()
         constantPoolList = tmpPoolList
         repeat(listObjectSize) {
             val constantPool = ConstantPool()
             constantPool.constantPoolIndex = bufferedSource.readShort()
             constantPool.entryType = bufferedSource.readByte()
-            constantPool.any = ReaderUtil.readValueByType(constantPool.entryType, bufferedSource)
+            val element = ReaderUtil.readValueByType(constantPool.entryType, bufferedSource)
+            constantPool.any = element.first
+            count += element.second + FieldLength.U2.length + FieldLength.U1.length
             tmpPoolList.add(constantPool)
         }
 
         listObjectSize = ReaderUtil.readUnsignedShort(bufferedSource)
-        count += FieldLength.U2.length + listObjectSize
+        println("HprofHeapClassDump static field $listObjectSize ")
+        count += FieldLength.U2.length
         val tmpStaticList = mutableListOf<StaticField>()
         staticFieldList = tmpStaticList
         repeat(listObjectSize) {
             val staticField = StaticField()
             staticField.nameStringId = bufferedSource.readInt()
             staticField.entryType = bufferedSource.readByte()
-            staticField.any = ReaderUtil.readValueByType(staticField.entryType, bufferedSource)
+            val element = ReaderUtil.readValueByType(staticField.entryType, bufferedSource)
+            staticField.any = element.first
+            count += element.second + +FieldLength.U4.length + FieldLength.U1.length
             tmpStaticList.add(staticField)
         }
 
         listObjectSize = ReaderUtil.readUnsignedShort(bufferedSource)
-        count += FieldLength.U2.length + listObjectSize
+        println("HprofHeapClassDump instance field $listObjectSize ")
+        count += FieldLength.U2.length
         val tmpInstanceList = mutableListOf<InstanceField>()
         instanceFieldList = tmpInstanceList
         repeat(listObjectSize) {
@@ -63,6 +70,7 @@ class HprofHeapClassDump(bufferedSource: BufferedSource) {
             instanceField.nameStringId = bufferedSource.readInt()
             instanceField.entryType = bufferedSource.readByte()
             tmpInstanceList.add(instanceField)
+            count += FieldLength.U4.length + FieldLength.U1.length
         }
     }
 

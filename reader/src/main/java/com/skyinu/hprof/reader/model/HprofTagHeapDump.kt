@@ -34,6 +34,7 @@ class HprofTagHeapDump(bufferedSource: BufferedSource, parent: HprofTag) {
         val hprofTagMap = mutableMapOf<Int, MutableList<Any>>()
         subTagMap = hprofTagMap
         var readCount = 0L
+        System.err.println("HprofTagHeapDump -------------------------------- ")
         do {
             val tag = ReaderUtil.readUnsignedByte(bufferedSource)
             readCount += FieldLength.U1.length
@@ -155,5 +156,9 @@ class HprofTagHeapDump(bufferedSource: BufferedSource, parent: HprofTag) {
                 }
             }
         } while (readCount < parent.bodyLength)
+        println("HprofTagHeapDump readCount $readCount body length ${parent.bodyLength} ")
+        if (readCount > parent.bodyLength) {
+            error("HprofTagHeapDump error happened,read wrong size")
+        }
     }
 }

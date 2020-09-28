@@ -10,7 +10,7 @@ class HprofHeapDumpInfo(bufferedSource: BufferedSource) {
 
     init {
         heapId = bufferedSource.readInt()
-        heapNameStringId = bufferedSource.readLong()
-        count += FieldLength.U4.length + FieldLength.U8.length
+        heapNameStringId = bufferedSource.readInt().toLong()
+        count += FieldLength.U4.length + FieldLength.U4.length
     }
 }

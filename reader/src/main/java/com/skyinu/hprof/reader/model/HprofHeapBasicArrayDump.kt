@@ -17,10 +17,13 @@ class HprofHeapBasicArrayDump(bufferedSource: BufferedSource) {
         stackSerialNumber = bufferedSource.readInt()
         numberOfElements = bufferedSource.readInt()
         elementsType = bufferedSource.readByte()
-        count += (FieldLength.U4.length * 3) + FieldLength.U1.length + numberOfElements
+        count += (FieldLength.U4.length * 3) + FieldLength.U1.length
+        println("HprofHeapBasicArrayDump numberOfElements $numberOfElements elementsType $elementsType ")
         val tmpElements = mutableListOf<Any>()
         repeat(numberOfElements) {
-            tmpElements.add(ReaderUtil.readValueByType(elementsType, bufferedSource))
+            val element = ReaderUtil.readValueByType(elementsType, bufferedSource)
+            count += element.second
+            tmpElements.add(element.first)
         }
         elements = tmpElements
     }

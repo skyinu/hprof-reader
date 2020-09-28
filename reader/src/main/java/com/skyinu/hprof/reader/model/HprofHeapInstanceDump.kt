@@ -17,7 +17,8 @@ class HprofHeapInstanceDump(bufferedSource: BufferedSource) {
         classObjectId = bufferedSource.readInt()
         count += (FieldLength.U4.length * 3)
         val remainValueBytes = ReaderUtil.readUnsignedInt(bufferedSource)
-        count += (FieldLength.U2.length + remainValueBytes)
+        println("HprofHeapInstanceDump remainValueBytes $remainValueBytes ")
+        count += (FieldLength.U4.length + remainValueBytes)
         values = bufferedSource.readByteArray(remainValueBytes)
     }
 }

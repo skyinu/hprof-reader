@@ -1,6 +1,6 @@
 package com.skyinu.hprof.reader.model
 
-enum class BasicType(val hprofType: Byte, val byteSize: Byte) {
+enum class BasicType(val hprofType: Byte, val byteSize: Int) {
     OBJECT(2, 4),
     BOOLEAN(4, 1),
     CHAR(5, 2),

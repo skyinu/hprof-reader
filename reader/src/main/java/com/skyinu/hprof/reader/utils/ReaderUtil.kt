@@ -21,22 +21,22 @@ object ReaderUtil {
         return String(byteArray.toByteArray())
     }
 
-    fun readValueByType(type: Byte, bufferSource: BufferedSource): Any {
+    fun readValueByType(type: Byte, bufferSource: BufferedSource): Pair<Any, Int> {
         return when (type) {
             BasicType.BOOLEAN.hprofType, BasicType.BYTE.hprofType -> {
-                bufferSource.readByte()
+                bufferSource.readByte() to BasicType.BYTE.byteSize
             }
             BasicType.CHAR.hprofType, BasicType.SHORT.hprofType -> {
-                bufferSource.readShort()
+                bufferSource.readShort() to BasicType.SHORT.byteSize
             }
             BasicType.INT.hprofType, BasicType.FLOAT.hprofType -> {
-                bufferSource.readInt()
+                bufferSource.readInt() to BasicType.FLOAT.byteSize
             }
             BasicType.DOUBLE.hprofType, BasicType.LONG.hprofType -> {
-                bufferSource.readLong()
+                bufferSource.readLong() to BasicType.LONG.byteSize
             }
             else -> {
-                bufferSource.readInt()
+                bufferSource.readInt() to BasicType.OBJECT.byteSize
             }
         }
     }
