@@ -53,3 +53,5 @@ a practice project to learn the data format of hprof.
 + [heapDumper](https://hg.openjdk.java.net/jdk/jdk/file/9a73a4e4011f/src/hotspot/share/services/heapDumper.cpp)
 + [android hprof](https://android.googlesource.com/platform/art/+/refs/heads/android10-c2f2-release/runtime/hprof/hprof.cc)
 + [probe](https://tech.meituan.com/2019/11/14/crash-oom-probe-practice.html)
++ [微信 Android 终端内存优化实践](https://www.ctolib.com/topics-136209.html)
++ [android object size](https://dev.to/pyricau/the-real-size-of-android-objects-1i2e)

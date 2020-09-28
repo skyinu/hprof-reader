@@ -156,9 +156,8 @@ class HprofTagHeapDump(bufferedSource: BufferedSource, parent: HprofTag) {
                 }
             }
         } while (readCount < parent.bodyLength)
-        println("HprofTagHeapDump readCount $readCount body length ${parent.bodyLength} ")
         if (readCount > parent.bodyLength) {
-            error("HprofTagHeapDump error happened,read wrong size")
+            error("HprofTagHeapDump error happened,read wrong size readCount $readCount body length ${parent.bodyLength} ")
         }
     }
 }
